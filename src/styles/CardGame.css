@@ -1,0 +1,69 @@
+/* src/styles/CardGame.css */
+
+/* 3D perspective container for the flipping card */
+.card-container {
+    perspective: 1000px; /* Creates a 3D space for the flip */
+  }
+  
+  /* Card main wrapper */
+  .card {
+    width: 20rem;  /* or 18rem, etc. Adjust as desired */
+    height: 28rem; /* 2:3 aspect ratio */
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+    cursor: pointer; /* indicates you can click */
+  }
+  
+  /* The flipped class rotates the card 180 degrees in 3D */
+  .card.is-flipped {
+    transform: rotateY(180deg);
+  }
+  
+  /* Front & back faces share these baseline styles */
+  .card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; 
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  /* 
+    FRONT SIDE:
+    Now using your new front image. 
+    Adjust the path to match your actual file location.
+  */
+  .card-face-front {
+    background: url('/src/assets/card-front.png') center/cover no-repeat;
+    color: #fff; 
+    /* Remove 'background-color: #222' */
+  }
+  
+  /* The "21+" label in the corner (optional) */
+  .card-corner-label {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background-color: #ffcd00;
+    color: #000;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+  
+  /* BACK SIDE: your other image (unchanged) */
+  .card-face-back {
+    background-color: transparent;
+    background: url('/src/assets/card-back.png') center/cover no-repeat;
+    transform: rotateY(180deg);
+    padding: 1rem;
+    color: #111;
+  }

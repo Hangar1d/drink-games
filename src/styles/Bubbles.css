@@ -1,0 +1,22 @@
+/* src/styles/Bubbles.css */
+@keyframes floatUp {
+    0% {
+      transform: translateY(100vh) scale(0.4);
+      opacity: 0;
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-10%) scale(1.1);
+      opacity: 0;
+    }
+  }
+  
+  .bubble {
+    position: absolute;
+    bottom: -4rem; /* start below the screen */
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 9999px;
+    animation: floatUp linear infinite;
+  }
