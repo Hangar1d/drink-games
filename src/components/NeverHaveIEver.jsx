@@ -197,7 +197,7 @@ const NeverHaveIEver = () => {
       {/* Enhanced Header */}
       <div className="relative z-10 w-full pt-10 pb-6 text-center">
         <motion.h1 
-          className="text-5xl font-extrabold text-white tracking-wider drop-shadow-lg"
+          className="text-3xl font-extrabold text-white tracking-wider drop-shadow-lg"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -327,7 +327,7 @@ const NeverHaveIEver = () => {
                 className="bg-emerald-800/60 px-5 py-2 rounded-full text-emerald-200 text-sm shadow-lg border border-emerald-600/30 flex items-center"
               >
                 <FaUserPlus className="mr-2 text-emerald-400" />
-                <span>Тоглогчид: {players.length}</span>
+                <span >Тоглогчид: {players.length}</span>
               </motion.div>
             </div>
           </div>
@@ -363,12 +363,12 @@ const NeverHaveIEver = () => {
                     transition={{ delay: 0.2 }}
                     className="bg-emerald-600/40 p-4 rounded-full"
                   >
-                    <FaWineGlassAlt className="text-emerald-300 text-4xl drop-shadow-lg" />
+                    <FaWineGlassAlt className="text-emerald-300 text-2xl drop-shadow-lg" />
                   </motion.div>
                 </div>
                 
                 <motion.p 
-                  className="text-2xl text-center mb-6 text-white font-medium leading-relaxed"
+                  className="text-l text-center mb-6 text-white font-medium leading-relaxed"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
@@ -382,14 +382,14 @@ const NeverHaveIEver = () => {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <p className="text-base italic bg-emerald-800/40 inline-block px-4 py-2 rounded-lg">Хэрэв та үүнийг хийж байсан бол уух ёстой!</p>
+                  <p className="text-xs italic bg-emerald-800/40 inline-block px-4 py-2 rounded-lg">Хэрэв та үүнийг хийж байсан бол уух ёстой!</p>
                 </motion.div>
               </motion.div>
             </AnimatePresence>
           </div>
           
           {/* Bottom section with fixed position buttons */}
-          <div className="w-full flex justify-center mt-8">
+          <div className="text-xs w-full flex justify-center mt-8">
             <div className="flex items-center space-x-6">
               <motion.button
                 onClick={() => setShowPlayerSetup(true)}
