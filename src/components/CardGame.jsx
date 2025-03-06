@@ -128,7 +128,10 @@ function CardGame() {
             ) : (
               <>
                 <div className="text-area border-front px-3 py-2">
-                  <p className="mt-65 text-center text-white font-semibold font-style: italic">
+                  <div className="card-design">
+                    <div className="card-center-icon"></div>
+                  </div>
+                  <p className="text-center text-white font-semibold font-style: italic absolute inset-x-0 bottom-10">
                     Хөзрөн дээр дар!
                   </p>
                 </div>
@@ -153,6 +156,14 @@ function CardGame() {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Add card progress indicator */}
+      <div className="w-64 bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700 overflow-hidden">
+        <div className="bg-blue-600 h-2.5 rounded-full" style={{ 
+          width: `${((initialCards.length - deck.length) / initialCards.length) * 100}%`,
+          transition: 'width 0.5s ease-in-out' 
+        }}></div>
       </div>
 
       {/* Deck count & Reset button */}

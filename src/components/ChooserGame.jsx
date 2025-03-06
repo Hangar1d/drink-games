@@ -15,8 +15,13 @@ const ChooserGame = () => {
   const countdownTimerRef = useRef(null);
   const lastTapTimeRef = useRef(0); // For detecting double/triple taps
   const tapCountRef = useRef(0);
-  const snapshotRef = useRef(null); // To store the snapshot of touches
   const navigate = useNavigate();   // React Router navigation
+
+  // A ref to always hold the latest touches
+  const touchesRef = useRef([]);
+  useEffect(() => {
+    touchesRef.current = touches;
+  }, [touches]);
 
   // === Reset the entire game state & clear timers ===
   const resetGame = () => {
@@ -24,7 +29,6 @@ const ChooserGame = () => {
     setSelectedId(null);
     setCountdown(null);
     setGameEnded(false);
-    snapshotRef.current = null;
 
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -104,13 +108,10 @@ const ChooserGame = () => {
   useEffect(() => {
     // If we have >= 2 touches, no selection yet, and no existing timer => start countdown
     if (touches.length >= 2 && selectedId === null && !timerRef.current) {
-      // 1) Capture a snapshot of the current touches in a ref
-      snapshotRef.current = [...touches];
-
-      // 2) Set up the countdown in state
+      // 1) Set up the countdown in state
       setCountdown(3);
 
-      // 3) Update countdown display every second
+      // 2) Update countdown display every second
       countdownTimerRef.current = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
@@ -122,12 +123,12 @@ const ChooserGame = () => {
         });
       }, 1000);
 
-      // 4) After 3 seconds, pick from the snapshot
+      // 3) After 3 seconds, pick from the latest touches (using touchesRef)
       timerRef.current = setTimeout(() => {
-        const snapshot = snapshotRef.current;
-        if (snapshot && snapshot.length > 0) {
-          const randomIndex = Math.floor(Math.random() * snapshot.length);
-          const chosenTouch = snapshot[randomIndex];
+        const latestTouches = touchesRef.current;
+        if (latestTouches && latestTouches.length > 0) {
+          const randomIndex = Math.floor(Math.random() * latestTouches.length);
+          const chosenTouch = latestTouches[randomIndex];
           setSelectedId(chosenTouch.id);
 
           // Keep only the chosen circle
@@ -148,7 +149,6 @@ const ChooserGame = () => {
         clearInterval(countdownTimerRef.current);
         countdownTimerRef.current = null;
       }
-      snapshotRef.current = null;
       setCountdown(null);
     }
   }, [touches, selectedId]);
@@ -180,7 +180,7 @@ const ChooserGame = () => {
           СОНГОГЧ
         </h1>
         <p className="text-md sm:text-lg text-white/90 mt-2">
-          Санамсаргүй байдлаар нэг тоглогч сонгогдоно.
+          Хоёр болон түүнээс дээш тоглогчид дэлгэцэн дээр дарж тоглоомыг эхлүүлнэ. Санамсаргүй байдлаар нэг тоглогч сонгогдоно.
         </p>
         <p className="text-sm text-white/80 mt-2">
           <strong>2 товшиж</strong> дахин эхлүүл, <strong>3 товшиж</strong> буцна.
@@ -199,9 +199,7 @@ const ChooserGame = () => {
             flex items-center justify-center
             transition-all duration-200
             ${selectedId === touch.id
-              // If this circle is chosen
               ? 'bg-green-200 border-green-300 animate-none'
-              // Otherwise
               : 'border-white/60 bg-transparent animate-pulse'
             }
           `}

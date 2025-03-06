@@ -1,8 +1,10 @@
 // src/components/Home.jsx
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../styles/Bubbles.css'
-import bgImage from '/public/bg.png'
+import bgImageLandscape from '/public/bg.png'
+import bgImagePortrait from '/public/bg-mobile.png'
+import { FaRandom, FaGamepad, FaGlassCheers } from 'react-icons/fa'
 
 const Home = () => {
   // Example bubble config (add as many as you like)
@@ -17,6 +19,7 @@ const Home = () => {
 
   // ============ 1) LOADING STATE & NAV ===============
   const [loading, setLoading] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const navigate = useNavigate()
 
   // Helper to show/hide the overlay
@@ -24,14 +27,30 @@ const Home = () => {
     setLoading(val)
   }
 
+  // Check screen size and set background image accordingly
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is a common breakpoint for tablets
+    };
+    
+    // Initial check
+    checkScreenSize();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkScreenSize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
   // ============ 2) RENDERING ==========================
   return (
     <div
       className="fixed inset-0 overflow-hidden select-none"
       style={{
-        backgroundImage: `url(${bgImage})`,
+        backgroundImage: `url(${isMobile ? bgImagePortrait : bgImageLandscape})`,
         backgroundSize: 'cover',
-        backgroundPosition: '53% center',
+        backgroundPosition: isMobile ? 'center center' : '53% center',
         backgroundRepeat: 'no-repeat',
         touchAction: 'none',
         overscrollBehavior: 'none',
@@ -61,65 +80,103 @@ const Home = () => {
         </div>
       )}
 
-      <div className="relative w-full h-full flex items-center justify-center mt-40">
-        <div className="flex flex-col space-y-6 items-center">
-          {/* 4) OVERRIDE onClick TO SHOW OVERLAY & DELAY NAVIGATION */}
-          <Link
-            to="/chooser"
-            onClick={(e) => {
-              e.preventDefault()
-              showLoadingOverlay(true)
-              // Fake 1s loading, then navigate
-              setTimeout(() => {
-                showLoadingOverlay(false)
-                navigate('/chooser')
-              }, 500)
-            }}
-            className="
-              px-8 py-4 
-              bg-stone-800/80 
-              text-white 
-              font-semibold 
-              text-xl 
-              rounded-xl 
-              shadow-xl 
-              hover:bg-pink-700/80
-              hover:scale-105 
-              transform 
-              transition 
-              duration-200
-            "
-          >
-            Сонгогч Тоглоом
-          </Link>
+      <div className="relative w-full h-full flex items-center justify-center">
+        <div className="absolute w-full flex flex-col items-center gap-4 px-8 md:px-20 bottom-32">
+          {/* Top row with two buttons */}
+          <div className="flex justify-between md:justify-center md:gap-8 w-full">
+            <Link
+              to="/chooser"
+              onClick={(e) => {
+                e.preventDefault()
+                showLoadingOverlay(true)
+                setTimeout(() => {
+                  showLoadingOverlay(false)
+                  navigate('/chooser')
+                }, 500)
+              }}
+              className="
+                px-5 py-3
+                bg-indigo-500/80 backdrop-blur-sm
+                text-white 
+                font-semibold 
+                text-base
+                rounded-xl 
+                shadow-lg
+                hover:bg-indigo-600/90
+                hover:scale-105 
+                transform 
+                transition 
+                duration-200
+                flex flex-col items-center
+                w-44
+              "
+            >
+              <FaRandom className="text-xl mb-1" />
+              <span>Сонгогч Тоглоом</span>
+            </Link>
 
+            <Link
+              to="/cardgame"
+              onClick={(e) => {
+                e.preventDefault()
+                showLoadingOverlay(true)
+                setTimeout(() => {
+                  showLoadingOverlay(false)
+                  navigate('/cardgame')
+                }, 500)
+              }}
+              className="
+                px-5 py-3
+                bg-amber-500/80 backdrop-blur-sm
+                text-white 
+                font-semibold 
+                text-base
+                rounded-xl 
+                shadow-lg
+                hover:bg-amber-600/90
+                hover:scale-105 
+                transform 
+                transition 
+                duration-200
+                flex flex-col items-center
+                w-44
+              "
+            >
+              <FaGamepad className="text-xl mb-1" />
+              <span>УУ эсвэл ХИЙ!</span>
+            </Link>
+          </div>
+
+          {/* Bottom button */}
           <Link
-            to="/cardgame"
+            to="/neverhaveiever"
             onClick={(e) => {
               e.preventDefault()
               showLoadingOverlay(true)
-              // Fake 1s loading, then navigate
               setTimeout(() => {
                 showLoadingOverlay(false)
-                navigate('/cardgame')
+                navigate('/neverhaveiever')
               }, 500)
             }}
             className="
-              px-8 py-4 
-              bg-orange-600/80 
+              px-5 py-3
+              bg-emerald-500/80 backdrop-blur-sm
               text-white 
               font-semibold 
-              text-xl 
+              text-base
               rounded-xl 
-              shadow-xl 
-              hover:bg-orange-700/80
+              shadow-lg
+              hover:bg-emerald-600/90
               hover:scale-105 
               transform 
               transition 
               duration-200
+              flex flex-col items-center
+              w-44
             "
           >
-            УУ эсвэл ХИЙ!
+            <FaGlassCheers className="text-xl mb-1" />
+            <span>Би Хэзээ Ч</span>
           </Link>
         </div>
       </div>
