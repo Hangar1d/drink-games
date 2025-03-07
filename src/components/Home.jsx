@@ -179,6 +179,9 @@ const Home = () => {
             <span>Би Хэзээ Ч</span>
           </Link>
         </div>
+        <footer className="absolute bottom-5 w-full text-center">
+           <p className="text-white text-xs">Developed by <strong>KHAN</strong></p>
+        </footer>
       </div>
     </div>
   )
